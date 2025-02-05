@@ -13,10 +13,11 @@ const Card = ({fruit}) => {
                 </div>
                 <div className="text-lg text-center mt-2">
                     <span className="text-[#679509] font-semibold">
-                        Rs. {fruit["price"]}
+                        ${fruit["price"]}
                     </span>
+                    &nbsp;
                     <span className="line-through">
-                        {fruit["oldPrice"]}
+                        ${fruit["oldPrice"]}
                     </span>
                 </div>
                 { fruit["option"] && 
