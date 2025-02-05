@@ -38,3 +38,19 @@
 .card:hover .heart-wishlist{
     display: flex;
 }
+
+.food-cat:hover .cat-name{
+    color: #679509;
+}
+
+.food-cat:hover .cat-img .plus{
+    display: flex;
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+    background-color: #679509dd;
+    color: #fff;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+}
