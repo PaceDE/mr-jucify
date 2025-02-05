@@ -9,6 +9,7 @@ import ItemSlider from "./blocks/ItemSlider";
 import ShopByCategory from "./blocks/ShopByCategory";
 import Deal from "./blocks/Deal";
 import Summary from "./blocks/Summary";
+import ContactBlock from "./blocks/ContactBlock";
 
 const Home = () => {
   return (
@@ -44,6 +45,8 @@ const Home = () => {
       </div>
 
       <Summary />
+
+      <ContactBlock />
 
 
     </div>
