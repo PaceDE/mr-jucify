@@ -1,0 +1,33 @@
+
+    .banner {
+            width: 100%;
+            height: auto;
+            text-align: center;
+            padding: 70px;
+            background-repeat: no-repeat;
+            position: relative;
+            margin-top: 10px;
+        }
+
+.banner h3 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 48px;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.banner a,
+.banner span {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 27px;
+    color: #ffff;
+    text-transform: uppercase;
+}
+
+.banner a:hover {
+    color: yellowgreen;
+}
