@@ -54,3 +54,15 @@
     align-items: center;
     font-size: 50px;
 }
+
+.call{
+    background-image: url('../images/map.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    min-height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
