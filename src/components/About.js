@@ -1,6 +1,4 @@
 import React from "react";
-import NavigationHeader from "./NavigationHeader";
-import Header from "./Header";
 import "../css/about.css";
 
 const About = () => {
@@ -8,8 +6,6 @@ const About = () => {
 
   return (
     <div className="about-page">
-      <Header />
-      <NavigationHeader />
 
       {/* About Us Section */}
       <section className="about-us">

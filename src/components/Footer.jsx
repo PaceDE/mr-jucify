@@ -28,7 +28,7 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div className="flex justify-center items-baseline w-3/5 m-auto footer-links">
+                <div className="flex justify-center items-baseline w-3/5 mx-auto footer-links">
                     <div className="flex flex-col p-5 m-[10px] w-1/4 footer-link footer-link-1">
                         <div className="logo">
                             <img src="images/logo.png" alt="" />
@@ -45,7 +45,7 @@ const Footer = () => {
                         </div>
                     </div>
                     {footerData.map(footer => (
-                        <div className="footer-link" key={footerData.indexOf(footer)}>
+                        <div className="mx-3 footer-link" key={footerData.indexOf(footer)}>
                             <div className="text-xl font-semibold border-b-2 border-solid border-[#67950955] pb-[10px] footer-header">
                                 <span>{footer["header"]}</span>
                             </div>
@@ -62,7 +62,7 @@ const Footer = () => {
                     ))}
                     
                     
-                    <div className="footer-link">
+                    <div className="mx-3 footer-link">
                         <div className="text-xl font-semibold border-b-2 border-solid border-[#67950955] pb-[10px] footer-header">
                             <span>Download</span> Apps
                         </div>
