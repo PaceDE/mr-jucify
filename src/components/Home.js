@@ -10,6 +10,7 @@ import ShopByCategory from "./blocks/ShopByCategory";
 import Deal from "./blocks/Deal";
 import Summary from "./blocks/Summary";
 import ContactBlock from "./blocks/ContactBlock";
+import Footer from "./Footer";
 
 const Home = () => {
   return (
@@ -47,6 +48,8 @@ const Home = () => {
       <Summary />
 
       <ContactBlock />
+
+      <Footer />
 
 
     </div>
