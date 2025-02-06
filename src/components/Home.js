@@ -11,7 +11,7 @@ import ContactBlock from "./blocks/ContactBlock";
 
 const Home = () => {
   return (
-    <div className="home-page">
+    <div className="overflow-hidden">
       <Banner />
       <SmallBanner />
       
