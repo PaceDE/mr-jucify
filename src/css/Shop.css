@@ -316,30 +316,37 @@
     margin-top: 30px;
 }
 
-.main-body .container .miscellaneous .category-list a {
-    display: block;
-    text-decoration: none;
-    width: 100%;
-    transition: all 0.5s ease-in-out;
+
+ .main-body .container .miscellaneous .category-list button:hover::before {
+    content: "\00a0+\00a0";
+    width: 100px; 
 }
 
-.main-body .miscellaneous .category-list a li {
+/* Category button styling */
+.main-body .container .miscellaneous .category-list button {
+    display: block;
+    width: 100%;
+    transition: all 0.5s ease-in-out;
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
     font-size: 16px;
     line-height: 30px;
     color: #4D4D4D;
-    list-style: none;
     border-bottom: dashed 1px #D5D5D5;
     padding: 8px 0;
+    text-align: left;
 }
 
-.miscellaneous .category-list a:last-child li {
+/* Remove border from the last button */
+.main-body .container .miscellaneous .category-list button:last-of-type {
     border: none;
 }
 
-.miscellaneous .category-list a:hover li {
+/* Hover effect on category buttons */
+.main-body .container .miscellaneous .category-list button:hover {
     color: #679509;
+    background-color: #f0f0f0;
+    /* Optional: to make hover effect more visible */
 }
 
 .main-body .miscellaneous .top-items {
@@ -436,7 +443,7 @@
 
 
 
-.miscellaneous .products-tag .tag-name a {
+.miscellaneous .products-tag .tag-name button {
     height: 40px;
 
     border: solid 1px #EEEEEE;
@@ -453,7 +460,7 @@
 }
 
 .miscellaneous .products-tag .tag-name .tag:hover,
-.miscellaneous .products-tag .tag-name a:hover {
+.miscellaneous .products-tag .tag-name button:hover {
     color: #ffffff;
     background: #679509;
     text-decoration: none;

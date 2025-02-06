@@ -1,75 +1,88 @@
 import React, { useState,useEffect } from "react";
 import ItemBox from "./ItemBox";
-
+import { useProduct } from "../../context/ProductContext";
+import { useParams } from "react-router-dom";
 
 const itemsPerPage = 6; // Display 9 items per page
 const server = " http://localhost:5000";
 
 const LeftBoxWrapper = () => {
-  const [items, setItems] = useState([]); // Store fetched products
+  const { items,loading,error} = useProduct();
   const [filteredItems, setFilteredItems] = useState(items);
-  const [loading, setLoading] = useState(true); // Track loading state
-  const [error, setError] = useState(null); // Track errors
+  const [selectedSorting, setSelectedSorting] = useState("0"); // "0" represents Default Sorting
   const [currentPage, setCurrentPage] = useState(1);
 
+  const {cname,tname}=useParams();
+  const currentPath = window.location.pathname;
+ 
+useEffect(() => {
+  setSelectedSorting("0");
+  setCurrentPage(1);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:5000/api/product/getproducts"
-        ); // Replace with your actual API endpoint
-        if (!response.ok) throw new Error("Failed to fetch products");
+  if (currentPath.startsWith("/shop/category") && cname) {
+    // Filter items based on category
+    if (cname !== "All Products") {
+      const categorizedItems = items.filter((item) =>
+        item.category.some(
+          (category) => category.toLowerCase().includes(cname.toLowerCase()) // Filter by category name
+        )
+      );
+      setFilteredItems(categorizedItems);
+    } else {
+      setFilteredItems(items); // Show all items if category is "All Products"
+    }
+  } else if (currentPath.startsWith("/shop/tag") && tname) {
+    // Filter items based on tag
+    const taggedItems = items.filter(
+      (item) =>
+        item.tags.some((tag) => tag.toLowerCase().includes(tname.toLowerCase())) // Filter by tag name
+    );
+    setFilteredItems(taggedItems);
+  } else {
+    setFilteredItems(items); // Show all items if no category or tag is selected
+  }
+}, [items, currentPath, cname, tname]);
 
-        const data = await response.json();
-        setItems(data);
-        setFilteredItems(data); // Store fetched products
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchProducts();
-  }, []);
+
+
+ 
+
 
   if (loading) return <p>Loading products...</p>;
   if (error) return <p>Error: {error}</p>;
- 
-
-  
- 
 
   const sortByName = () => {
-    const sortedItems = [...filteredItems].sort((a, b) => a.pName.localeCompare(b.pName))
+    const sortedItems = [...filteredItems].sort((a, b) =>
+      a.pName.localeCompare(b.pName)
+    );
     setFilteredItems(sortedItems);
+    setCurrentPage(1);
+    setSelectedSorting(1);
   };
 
   const sortByPrice = () => {
-    const sortedItems = [...filteredItems].sort((a,b) => a.price - b.price);
+    const sortedItems = [...filteredItems].sort((a, b) => a.price - b.price);
     setFilteredItems(sortedItems);
-  }
+    setCurrentPage(1);
+    setSelectedSorting(2);
+  };
 
   const handleSort = (e) => {
     const option = e.target.value;
-    if (option === '1'){
+    if (option === "1") {
       sortByName();
-       setCurrentPage(1);
-    }else if (option === '2'){
+    } else if (option === "2") {
       sortByPrice();
-       setCurrentPage(1);
-    }
-    else 
-    {
-       setFilteredItems(items);
-        setCurrentPage(1);
-      
+    } else {
+      setFilteredItems(items);
+      setCurrentPage(1);
+      setSelectedSorting(0);
     }
   };
 
   // Calculate total pages
-  const totalPages = Math.ceil(items.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   var pages = [];
   for (let i = 0; i < totalPages; i++) {
     pages[i] = i + 1;
@@ -77,15 +90,15 @@ const LeftBoxWrapper = () => {
 
   // Get items for the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
+  const currentItems = filteredItems.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   // Calculate start and end items for the current page
   const startItem = startIndex + 1;
   const endItem = startIndex + currentItems.length;
   const totalItems = filteredItems.length;
-
-
-  
 
   return (
     <>
@@ -97,16 +110,18 @@ const LeftBoxWrapper = () => {
           </p>
         </div>
         <div className="sorting">
-          <select className="default-sorting" id="sorting-options" name="sortingOptions" onChange={handleSort}>
-            <option value="0">
-              Default Sorting
-            </option>
+          <select
+            className="default-sorting"
+            id="sorting-options"
+            name="sortingOptions"
+            value={selectedSorting}
+            onChange={handleSort}
+          >
+            <option value="0">Default Sorting</option>
             <option value="1" onClick={sortByName}>
               Sort By Name
             </option>
-            <option value="2">
-              Sort By Price
-            </option>
+            <option value="2">Sort By Price</option>
           </select>
         </div>
       </div>
@@ -136,7 +151,7 @@ const LeftBoxWrapper = () => {
             &#60; Previous
           </button>
 
-          {pages.map((num,index) => {
+          {pages.map((num, index) => {
             return (
               <button
                 key={index}

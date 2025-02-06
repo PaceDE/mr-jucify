@@ -1,20 +1,19 @@
 import React from "react";
+import { useProduct } from "../../context/ProductContext";
+import { useNavigate } from "react-router-dom";
 
-const productTags = [
-  "Mango",
-  "Juice",
-  "Apple",
-  "Broccoli",
-  "Juicy",
-  "Green",
-  "Summer",
-  "Dairy",
-  "Fresh",
-  "Cream",
-  "Juicyfy",
-];
+
 
 const ProductTags = () => {
+
+  const{allTags,setSelectedCategory,setCurrentTag}=useProduct();
+  const navigate=useNavigate();
+
+  const handleTagSelect = (tag)=>{
+    setCurrentTag(tag);
+    setSelectedCategory("All Products");
+    navigate(`/shop/tag/${tag.toLowerCase()}`);
+  }
   return (
     <div className="products-tag">
       <div className="text">
@@ -22,10 +21,10 @@ const ProductTags = () => {
       </div>
 
       <div className="tag-name">
-        {productTags.map((tag, index) => (
-          <a key={index} href="/">
+        {allTags.map((tag, index) => (
+          <button key={index} onClick={()=>{handleTagSelect(tag)}}>
             {tag}
-          </a>
+          </button>
         ))}
       </div>
     </div>

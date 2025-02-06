@@ -63,7 +63,7 @@ const Summary = () => {
                         get a discount for weekly offer
                     </div>
                     <div className="w-[80%] m-auto image-links mt-5">
-                        <a href="#" className="px-10 py-4 mr-2 text-white text-lg duration-300 ease-linear bg-[#679509] hover:bg-[#2a660a] shadow-xl">
+                        <a href="/" className="px-10 py-4 mr-2 text-white text-lg duration-300 ease-linear bg-[#679509] hover:bg-[#2a660a] shadow-xl">
                             Shop Now
                         </a>
                     </div>

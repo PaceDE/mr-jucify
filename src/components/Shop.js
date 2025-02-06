@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import Banner from "./Banner";
 import LeftBoxWrapper from "./shop/LeftBoxWrapper";
 import TopItems from "./shop/TopItems";
@@ -6,10 +7,24 @@ import SearchBox from "./shop/SearchBox";
 import ProductCategory from "./shop/ProductCategory";
 import ProductTags from "./shop/ProductTags";
 
+
+
 import "../css/Shop.css";
+import { useLocation } from "react-router-dom";
+import { useProduct } from "../context/ProductContext";
 
 
 const Shop = () => {
+  const {setSelectedCategory} = useProduct();
+
+  const location=useLocation();
+  useEffect(() => {
+    // If the location is not /shop or its child paths, reset the selectedCategory
+    if (!location.pathname.startsWith("/shop")) {
+      setSelectedCategory("All Products");
+    }
+  }, [location, setSelectedCategory]);
+  
   return (
     <>
       <Banner pageTitle={"Shop"} />
@@ -25,9 +40,9 @@ const Shop = () => {
             <div className="col-lg-4 col-md-12">
               <div className="miscellaneous">
                 <SearchBox />
-                <ProductCategory />
+                <ProductCategory/>
                 <TopItems />
-                <ProductTags />
+                <ProductTags/>
               </div>
             </div>
           </div>

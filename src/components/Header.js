@@ -1,20 +1,8 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useCategory } from "../context/CategoryContext";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useProduct } from "../context/ProductContext";
 import LogoImg from "../images/logo.png";
 import "../css/Header.css"; 
-
-
-const categories = [
-  "Select Category",
-  "Vegetables",
-  "Fruits",
-  "Salads",
-  "Fish & Seafood",
-  "Fresh Meat",
-  "Health Product",
-  "Butter & Eggs",
-];
 
 const Logo = () => (
   <div className="w-1/6 flex justify-start ml-6 lg:w-1/12">
@@ -23,15 +11,34 @@ const Logo = () => (
 );
 
 const CategorySelect = () => {
-  const { selectedCategory, setSelectedCategory } = useCategory();
+  const { selectedCategory, setSelectedCategory,allCategory } = useProduct();
   const [isOpen, setIsOpen] = useState(false);
   const navigate= useNavigate();
+  const location =useLocation();
+
+  useEffect(()=>{
+    const currentPath = window.location.pathname;
+    if(!currentPath.startsWith("/shop/category"))
+    {
+      setSelectedCategory("All Products");
+
+    }
+
+},[location,setSelectedCategory])
 
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
     setIsOpen(false);
-    navigate(`/shop/${category.toLowerCase()}`); // Navigate with category in URL
+     const currentPath = window.location.pathname;
+    if(category!=="All Products")
+    {
+      navigate(`/shop/category/${category.toLowerCase()}`); // Navigate with category in URL
+    }
+    else if(currentPath.startsWith("/shop") && currentPath!==('/shop'))
+    {
+      navigate('/shop');
+    }
   };
 
   return (
@@ -42,7 +49,14 @@ const CategorySelect = () => {
       </button>
       {isOpen && (
         <ul className="dropdown-menu">
-          {categories.map((category, index) => (
+          <li
+        
+            className="dropdown-item"
+            onClick={() => handleCategoryClick("All Products")}
+          >
+            All Products  
+          </li>
+          {allCategory.map((category, index) => (
             <li
               key={index}
               className="dropdown-item"
@@ -84,6 +98,7 @@ const ContactInfo = ({ icon, text }) => (
 
 
 const Header = () => {
+
   return (
     <header className="header-container">
       <Logo />

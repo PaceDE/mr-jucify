@@ -31,7 +31,7 @@ const Banner = () => {
                 <Slider {...settings}>
                     {images.map(img => (
                         <div className="w-screen h-[80vh] relative" key={images.indexOf(img)}>
-                            <img className="w-full h-full object-cover opacity-[0.7]" src={img}/>
+                            <img className="w-full h-full object-cover opacity-[0.7]" src={img} alt="img"/>
                             <div className="image-content absolute top-[30%] left-[15%] leading-[60px]">
                                 <div className="uppercase text-xl font-medium">
                                     Organic and Fresh Food
