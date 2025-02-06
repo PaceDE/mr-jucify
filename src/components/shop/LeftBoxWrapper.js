@@ -1,75 +1,69 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import ItemBox from "./ItemBox";
-import Image1 from "../../images/1.png";
-import Image2 from "../../images/2.png";
-import Image3 from "../../images/3.png";
-import Image4 from "../../images/4.png";
-import Image5 from "../../images/5.png";
-import Image6 from "../../images/6.png";
-import Image7 from "../../images/7.png";
-import Image8 from "../../images/8.png";
-import Image9 from "../../images/9.png";
 
-
-const items = [
-  {
-    imgSrc: Image1,
-    title: "Onion & Garlic",
-    price: 199,
-    originalPrice: 249,
-    id: 1,
-  },
-  { imgSrc: Image2, title: "Persimon", price: 499, originalPrice: 549, id: 2 },
-  { imgSrc: Image2, title: "Guava", price: 499, originalPrice: 549, id: 3 },
-  { imgSrc: Image2, title: "Kiwi", price: 499, originalPrice: 549, id: 4 },
-  {
-    imgSrc: Image2,
-    title: "Dragon Fruit",
-    price: 499,
-    originalPrice: 549,
-    id: 5,
-  },
-  { imgSrc: Image2, title: "Avocado", price: 499, originalPrice: 549, id: 6 },
-  { imgSrc: Image3, title: "Cucumber", price: 299, originalPrice: 349, id: 7 },
-  { imgSrc: Image4, title: "Apple", price: 399, originalPrice: 449, id: 8 },
-  { imgSrc: Image5, title: "Banana", price: 199, originalPrice: 249, id: 9 },
-  { imgSrc: Image6, title: "Mango", price: 299, originalPrice: 349, id: 10 },
-  { imgSrc: Image7, title: "Berry", price: 599, originalPrice: 699, id: 11 },
-  { imgSrc: Image8, title: "Peach", price: 349, originalPrice: 399, id: 12 },
-  { imgSrc: Image9, title: "Grapes", price: 249, originalPrice: 299, id: 13 },
-  { imgSrc: Image9, title: "Cherry", price: 249, originalPrice: 299, id: 14 },
-  { imgSrc: Image9, title: "Watermelon", price: 249, originalPrice: 299, id: 15 },
-  { imgSrc: Image9, title: "Pineapple", price: 249, originalPrice: 299, id: 116 },
-];
 
 const itemsPerPage = 6; // Display 9 items per page
+const server = " http://localhost:5000";
 
 const LeftBoxWrapper = () => {
+  const [items, setItems] = useState([]); // Store fetched products
+  const [filteredItems, setFilteredItems] = useState(items);
+  const [loading, setLoading] = useState(true); // Track loading state
+  const [error, setError] = useState(null); // Track errors
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [sortitems, setSortItems] = useState(items);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/product/getproducts"
+        ); // Replace with your actual API endpoint
+        if (!response.ok) throw new Error("Failed to fetch products");
+
+        const data = await response.json();
+        setItems(data);
+        setFilteredItems(data); // Store fetched products
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  if (loading) return <p>Loading products...</p>;
+  if (error) return <p>Error: {error}</p>;
+ 
+
+  
+ 
 
   const sortByName = () => {
-    const sortedItems = [...sortitems].sort((a,b) => a.title.localeCompare(b.title));
-    console.log(sortedItems);
-    setSortItems(sortedItems)
-  }
+    const sortedItems = [...filteredItems].sort((a, b) => a.pName.localeCompare(b.pName))
+    setFilteredItems(sortedItems);
+  };
 
   const sortByPrice = () => {
-    const sortedItems = [...sortitems].sort((a,b) => a.price - b.price);
-    setSortItems(sortedItems);
+    const sortedItems = [...filteredItems].sort((a,b) => a.price - b.price);
+    setFilteredItems(sortedItems);
   }
 
   const handleSort = (e) => {
     const option = e.target.value;
     if (option === '1'){
       sortByName();
+       setCurrentPage(1);
     }else if (option === '2'){
       sortByPrice();
+       setCurrentPage(1);
     }
     else 
     {
-       setSortItems(items);
+       setFilteredItems(items);
+        setCurrentPage(1);
       
     }
   };
@@ -83,12 +77,12 @@ const LeftBoxWrapper = () => {
 
   // Get items for the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentItems = sortitems.slice(startIndex, startIndex + itemsPerPage);
+  const currentItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
 
   // Calculate start and end items for the current page
   const startItem = startIndex + 1;
   const endItem = startIndex + currentItems.length;
-  const totalItems = sortitems.length;
+  const totalItems = filteredItems.length;
 
 
   
@@ -123,11 +117,11 @@ const LeftBoxWrapper = () => {
         {currentItems.map((item) => (
           <ItemBox
             key={item.id}
-            imgSrc={item.imgSrc}
-            title={item.title}
+            imgSrc={`${server}${item.imgSrc}`}
+            title={item.pName}
             price={item.price}
             originalPrice={item.originalPrice}
-            id={item.id}
+            id={item.pId}
           />
         ))}
       </div>

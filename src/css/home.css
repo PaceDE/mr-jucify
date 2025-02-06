@@ -66,3 +66,7 @@
     align-items: center;
 
 }
+
+.socials a:hover i{
+    color: #eee;
+}
