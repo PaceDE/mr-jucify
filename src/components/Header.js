@@ -23,7 +23,6 @@ const CategorySelect = () => {
       setSelectedCategory("All Products");
 
     }
-
 },[location,setSelectedCategory])
 
 
