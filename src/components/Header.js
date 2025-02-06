@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCategory } from "../context/CategoryContext";
 import LogoImg from "../images/logo.png";
 import "../css/Header.css"; 
+
 
 const categories = [
   "Select Category",
@@ -20,8 +23,16 @@ const Logo = () => (
 );
 
 const CategorySelect = () => {
-  const [selectedCategory, setSelectedCategory] = useState("Select Category");
+  const { selectedCategory, setSelectedCategory } = useCategory();
   const [isOpen, setIsOpen] = useState(false);
+  const navigate= useNavigate();
+
+
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+    setIsOpen(false);
+    navigate(`/shop/${category.toLowerCase()}`); // Navigate with category in URL
+  };
 
   return (
     <div className="relative category-container">
@@ -35,10 +46,7 @@ const CategorySelect = () => {
             <li
               key={index}
               className="dropdown-item"
-              onClick={() => {
-                setSelectedCategory(category);
-                setIsOpen(false);
-              }}
+              onClick={() => handleCategoryClick(category)}
             >
               {category}
             </li>
