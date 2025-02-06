@@ -1,6 +1,4 @@
 import React from "react";
-import NavigationHeader from "./NavigationHeader";
-import Header from "./Header";
 import Banner from "./Banner";
 import LeftBoxWrapper from "./shop/LeftBoxWrapper";
 import TopItems from "./shop/TopItems";
@@ -14,8 +12,6 @@ import "../css/Shop.css";
 const Shop = () => {
   return (
     <>
-      <Header />
-      <NavigationHeader />
       <Banner pageTitle={"Shop"} />
       <section className="main-body">
         <div className="container">
