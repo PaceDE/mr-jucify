@@ -8,19 +8,23 @@ import Contact from "./components/Contact";
 import Header from "./components/Header";
 import NavigationHeader from "./components/NavigationHeader";
 import Footer from "./components/Footer";
+import { CategoryProvider } from "./context/CategoryContext";
 
 function App() {
   return (
     <BrowserRouter>
     <Header />
     <NavigationHeader />
+    <CategoryProvider>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/shop" element={<Shop />} />
+      <Route path="/shop/:category" element={<Shop />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/contact" element={<Contact />} />
     </Routes>
+    </CategoryProvider>
     <Footer />
     </BrowserRouter>
   );
