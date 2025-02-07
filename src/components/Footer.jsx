@@ -21,9 +21,9 @@ const Footer = () => {
                         </div>
                     </div>
                     <div className="ml-24 mail-form">
-                        <form className="flex flex-wrap">
-                            <input className="px-12 h-16 border-0  bg-[#141626] text-[#aaabc3] uppercase email-input focus:outline-0" type="email" placeholder="ENTER YOUR EMAIL ADDRESS" />
-                            <Link to="#" className="image-link-1">Subscribe Now</Link>
+                        <form className="flex flex-wrap items-baseline">
+                            <input className="px-12 mr-2 h-16 border-0 bg-[#141626] text-[#aaabc3] focus:outline-0 focus:border-0" type="email" placeholder="YOUR EMAIL ADDRESS" />
+                            <input type="submit" className="px-10 py-4 mr-2 text-white text-lg duration-300 ease-linear bg-[#679509] hover:bg-[#2a660a] shadow-xl" value="Subscribe Now" />
                         </form>
                     </div>
                 </div>
