@@ -7,7 +7,7 @@ const cors = require('cors');
 connectToMongo();
 const app = express();
 const port = 5000;
-app.use("/images", express.static(path.join(__dirname, "images")));
+//app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use(cors()); // Allow all origins
  app.use(express.json());
