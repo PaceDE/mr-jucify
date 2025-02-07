@@ -96,8 +96,10 @@ useEffect(() => {
   );
 
   // Calculate start and end items for the current page
-  const startItem = startIndex + 1;
+  var startItem = startIndex + 1;
   const endItem = startIndex + currentItems.length;
+  if(endItem==0)
+    startItem=0;
   const totalItems = filteredItems.length;
 
   return (
@@ -132,7 +134,7 @@ useEffect(() => {
         {currentItems.map((item) => (
           <ItemBox
             key={item.id}
-            imgSrc={`${server}${item.imgSrc}`}
+            imgSrc={item.imgSrc}
             title={item.pName}
             price={item.price}
             originalPrice={item.originalPrice}

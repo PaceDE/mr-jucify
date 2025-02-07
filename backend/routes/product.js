@@ -45,10 +45,11 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+    console.log(req.body);
 
     // Check if the product already exists
     const productExist = await Product.findOne({
-      $or: [{ pId: req.body.pId }, { imgSrc: req.body.imgSrc }],
+     imgSrc: req.body.imgSrc
     });
 
     if (productExist) {
