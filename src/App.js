@@ -1,19 +1,19 @@
 import React from "react";
 import { BrowserRouter, Route, Routes,useLocation } from "react-router-dom";
-import Home from "./components/Home";
-import About from "./components/About";
-import Shop from "./components/Shop";
-import Blog from "./components/Blog";
-import Contact from "./components/Contact";
-import Header from "./components/Header";
-import AdminPage from "./components/AdminPage";
-import NavigationHeader from "./components/NavigationHeader";
-import Footer from "./components/Footer";
-import CreateProduct from "./components/admin/CreateProduct";
-import ChangeProduct from "./components/admin/ChangeProduct";
-import DeleteProduct from "./components/admin/DeleteProduct";
+import Home from "./frontend/components/Home";
+import About from "./frontend/components/About";
+import Shop from "./frontend/components/Shop";
+import Blog from "./frontend/components/Blog";
+import Contact from "./frontend/components/Contact";
+import Header from "./frontend/components/Header";
+import AdminPage from "./admin/AdminPage";
+import NavigationHeader from "./frontend/components/NavigationHeader";
+import Footer from "./frontend/components/Footer";
+import CreateProduct from "./admin/components/CreateProduct";
+import ChangeProduct from "./admin/components/ChangeProduct";
+import DeleteProduct from "./admin/components/DeleteProduct";
+import RecentActivity from "./admin/components/RecentActivity";
 import { ProductProvider } from "./context/ProductContext";
-import RecentActivity from "./components/admin/RecentActivity";
 import { ActivityProvider } from "./context/ActivityContext";
 
 const App=()=> {
