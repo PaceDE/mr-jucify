@@ -4,7 +4,7 @@ import { useProduct } from "../../context/ProductContext";
 import { useParams } from "react-router-dom";
 
 const itemsPerPage = 6; // Display 9 items per page
-const server = " http://localhost:5000";
+
 
 const LeftBoxWrapper = () => {
   const { items,loading,error} = useProduct();
@@ -98,7 +98,7 @@ useEffect(() => {
   // Calculate start and end items for the current page
   var startItem = startIndex + 1;
   const endItem = startIndex + currentItems.length;
-  if(endItem==0)
+  if(endItem===0)
     startItem=0;
   const totalItems = filteredItems.length;
 

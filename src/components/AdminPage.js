@@ -1,11 +1,9 @@
-import React, { useState } from "react";
-import { Routes,Route,Link,Outlet,useNavigate } from "react-router-dom";
-import RecentActivity from "./admin/RecentActivity";
-import CreateProduct from "./admin/CreateProduct";
-import ChangeProduct from "./admin/ChangeProduct";
-import DeleteProduct from "./admin/UpdateProduct";
+import React from "react";
+import { Link,Outlet,useNavigate } from "react-router-dom";
+
 
 const AdminPage = () => {
+ 
   const navigate =useNavigate();
 
 
@@ -45,7 +43,7 @@ const AdminPage = () => {
               </tr>
 
               {/* Users Row */}
-              <tr className="bg-gray-700 border-b border-gray-500">
+              <tr className="bg-gray-800 border-b border-gray-500">
                 <td className="p-3 w-3/4">Users</td>
                 <td className="p-3 w-1/4 flex space-x-5">
                   <button className="text-blue-400">+ Add</button>
@@ -89,7 +87,7 @@ const AdminPage = () => {
               </tr>
 
               {/* Users Row */}
-              <tr className="bg-gray-700 border-b border-gray-500">
+              <tr className="bg-gray-800 border-b border-gray-500">
                 <td className="p-3 w-3/4">Order</td>
                 <td className="p-3 w-1/4 flex space-x-5">
                   <button className="text-blue-400">+ Add</button>

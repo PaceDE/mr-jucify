@@ -11,9 +11,10 @@ import NavigationHeader from "./components/NavigationHeader";
 import Footer from "./components/Footer";
 import CreateProduct from "./components/admin/CreateProduct";
 import ChangeProduct from "./components/admin/ChangeProduct";
-import DeleteProduct from "./components/admin/UpdateProduct";
+import DeleteProduct from "./components/admin/DeleteProduct";
 import { ProductProvider } from "./context/ProductContext";
 import RecentActivity from "./components/admin/RecentActivity";
+import { ActivityProvider } from "./context/ActivityContext";
 
 const App=()=> {
 
@@ -36,26 +37,28 @@ const App=()=> {
   return (
     <BrowserRouter>
       <ProductProvider>
-        <Layout>
-          <Routes>
-            <Route path="/admin" element={<AdminPage />}>
-              {/* Default Page (when /admin is visited) */}
-              <Route index element={<RecentActivity />} />
+        <ActivityProvider>
+          <Layout>
+            <Routes>
+              <Route path="/admin" element={<AdminPage />}>
+                {/* Default Page (when /admin is visited) */}
+                <Route index element={<RecentActivity />} />
 
-              {/* Nested Routes inside AdminPage */}
-              <Route path="product/create" element={<CreateProduct />} />
-              <Route path="product/change" element={<ChangeProduct />} />
-              <Route path="product/delete" element={<DeleteProduct />} />
-            </Route>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/shop" element={<Shop />} />
-            <Route path="/shop/category/:cname" element={<Shop />} />
-            <Route path="/shop/tag/:tname" element={<Shop />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/contact" element={<Contact />} />
-          </Routes>
-        </Layout>
+                {/* Nested Routes inside AdminPage */}
+                <Route path="product/create" element={<CreateProduct />} />
+                <Route path="product/change" element={<ChangeProduct />} />
+                <Route path="product/delete" element={<DeleteProduct />} />
+              </Route>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/shop" element={<Shop />} />
+              <Route path="/shop/category/:cname" element={<Shop />} />
+              <Route path="/shop/tag/:tname" element={<Shop />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/contact" element={<Contact />} />
+            </Routes>
+          </Layout>
+        </ActivityProvider>
       </ProductProvider>
     </BrowserRouter>
   );

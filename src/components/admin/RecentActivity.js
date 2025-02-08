@@ -1,16 +1,10 @@
 import React from "react";
-import { useState } from "react";
+import { useActivity } from "../../context/ActivityContext";
 
 const RecentActivity = () =>{
+  const {recentActivity} = useActivity();
 
-     const [recentActivity, setRecentActivity] = useState([]);
-
-     // Function to add recent activity and navigate
-     const handleAction = (action, entity) => {
-       const newActivity = `${action} ${entity} at ${new Date().toLocaleTimeString()}`;
-       setRecentActivity((prev) => [newActivity, ...prev]); // Add new activity to topn
-     };
-
+     
     
     return (
         <>

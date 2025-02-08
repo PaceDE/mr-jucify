@@ -2,6 +2,9 @@ const express = require("express");
 const Product = require("../models/Product");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
+const axios = require("axios");
+const crypto = require("crypto");
+require("dotenv").config();
 
 
 // Route 1 : Create and save Product
@@ -86,4 +89,80 @@ router.get(
        res.status(500).send("Server error: " + error.message);
      }
   });
+
+
+
+
+
+  
+  
+
+  // Function to delete image from Cloudinary
+  const deleteImageFromCloudinary = async (imgUrl) => {
+
+    const regex = /\/v\d+\//; // Matches "/v" followed by version number and "/"
+    const baseUrl = imgUrl.split(regex)[1]; // Split the URL at the version part
+    const public_id = baseUrl.split('.')[0];
+    
+    const cloudName =process.env.CLOUD_NAME; // Your Cloudinary cloud name
+    const apiKey = process.env.API_KEY; // Cloudinary API Key
+    const apiSecret =process.env.API_SECRET; // Cloudinary API Secret
+     
+    const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/destroy`;
+    const timestamp = Math.round(new Date().getTime() / 1000);
+
+    // Generate signature (SHA-1 Hash)
+    const signature = crypto
+      .createHash("sha1")
+      .update(`public_id=${public_id}&timestamp=${timestamp}${apiSecret}`)
+      .digest("hex");
+
+    try {
+      const response = await axios.post(
+        url,
+        {
+          public_id: public_id,
+          api_key: apiKey,
+          timestamp: timestamp,
+          signature: signature // The public_id of the image to delete
+        }
+      );
+
+      if (response.data.result === "ok") {
+        console.log("Image deleted successfully from Cloudinary.");
+      } else {
+        console.log("Failed to delete image.");
+      }
+    } catch (error) {
+      console.error("Error deleting image from Cloudinary:", error);
+    }
+  };
+
+router.delete("/deleteproduct/:pId", async (req, res) => {
+  const { pId } = req.params; // Get the product ID from URL params
+  try {
+    // Find the product by ID and delete it
+   const product = await Product.findOne({ pId });
+
+   if (!product) {
+     return res.status(404).json({ message: "Product not found!" });
+   }
+
+   // Delete image from Cloudinary if it exists
+   if (product.imgSrc) {
+     await deleteImageFromCloudinary(product.imgSrc);
+   }
+
+   // Delete the product from database
+   await Product.findOneAndDelete({ pId });
+
+    res.status(200).json({ message: "Product deleted successfully!" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error deleting product. Please try again." });
+  }
+});
+
+
 module.exports = router;

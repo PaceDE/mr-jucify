@@ -1,11 +1,14 @@
-import React, { useState,useEffect } from "react";
+import React, { useState} from "react";
 import axios from "axios";
+import { useActivity } from "../../context/ActivityContext";
 
 const CreateProduct = () => {
+
   
 
   const [message, setMessage] = useState(""); // Success/Error message
   const[success,setSuccess] = useState(false);
+  const{ handleActivity} =useActivity();
   
 
   // Handle form input changes
@@ -67,16 +70,6 @@ const CreateProduct = () => {
       imgSrc: imgUrl, // Use Cloudinary URL
     };
 
-    console.log(productData.pId);
-    console.log(productData.pName);
-    console.log(productData.description);
-console.log(productData.price);
-console.log(productData.originalPrice);
-console.log(productData.category);
-console.log(productData.tags);
-console.log(productData.imgSrc);
-
-
 
 
     try {
@@ -85,9 +78,13 @@ console.log(productData.imgSrc);
         productData
       );
 
-      if (response.status==201) {
+      if (response.status===201) {
         setMessage(response.data.message + "✅");
         setSuccess(true);
+        handleActivity(
+          "Product Created",
+          `Product id : ${productData.pId} Product name : ${productData.pName}`
+        );
         setTimeout(() => {
           setMessage("");
           setSuccess(false);
