@@ -12,8 +12,9 @@ const port = 5000;
 app.use(cors()); // Allow all origins
  app.use(express.json());
 
-app.use('/api/product',require('./routes/product'))
+app.use('/api/product',require('./routes/product'));
 app.use('/api/auth', require("./routes/auth"));
+app.use('/api/activity',require('./routes/activity'));
 //app.use("/api/fetchallproduct", require("./routes/fetchProduct"));
 app.get("/", (req, res) => {
   res.send("Hello World!");

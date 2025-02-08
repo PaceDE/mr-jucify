@@ -1,16 +1,10 @@
 import React, { useState} from "react";
 import axios from "axios";
-import { useActivity } from "../../context/ActivityContext";
 
 const CreateProduct = () => {
-
-  
-
   const [message, setMessage] = useState(""); // Success/Error message
   const[success,setSuccess] = useState(false);
-  const{ handleActivity} =useActivity();
   
-
   // Handle form input changes
 
 
@@ -81,15 +75,16 @@ const CreateProduct = () => {
       if (response.status===201) {
         setMessage(response.data.message + "✅");
         setSuccess(true);
-        handleActivity(
-          "Product Created",
-          `Product id : ${productData.pId} Product name : ${productData.pName}`
-        );
+        await axios.post("http://localhost:5000/api/activity", {
+          action: "Product Created",
+          entity: `Product ID: ${productData.pId}, Product Name: ${productData.pName}`,
+        });
         setTimeout(() => {
           setMessage("");
           setSuccess(false);
-        }, 4000);
+        }, 4000);   
         form.reset();
+       
       } else {
         setMessage(`Error: ${response.data.message} ❌`);
         setTimeout(() => {
@@ -102,6 +97,11 @@ const CreateProduct = () => {
         setMessage("");
       }, 4000);
     }
+
+    
+
+
+
   };
 
   return (

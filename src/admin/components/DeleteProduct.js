@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useActivity } from "../../context/ActivityContext";
 
 const DeleteProduct = () => {
   const [products, setProducts] = useState([]);
   const [message, setMessage] = useState(""); // Success/Error message
-  const {handleActivity} = useActivity();
-
   // Fetch products from backend
   const fetchProducts = async () => {
     try {
@@ -20,7 +17,7 @@ const DeleteProduct = () => {
   };
 
   // Delete product handler
-  const handleDeleteProduct = async (productId) => {
+  const handleDeleteProduct = async (productId,productName) => {
     try {
       const response = await axios.delete(
         `http://localhost:5000/api/product/deleteproduct/${productId}`
@@ -28,10 +25,10 @@ const DeleteProduct = () => {
 
       if (response.status === 200) {
         setMessage("Product deleted successfully! ✅");
-        const productName = products.find(
-          (product) => product.pId === productId
-        )?.pName;
-        handleActivity("product Deleted", `Product Id:${productId} Product name:${productName}`);
+        await axios.post("http://localhost:5000/api/activity", {
+          action: "Product Deleted",
+          entity: `Product ID: ${productId}, Product Name: ${productName}`,
+        });
 
         setTimeout(()=>{
             setMessage("");
@@ -94,7 +91,7 @@ const DeleteProduct = () => {
                   </td>
                   <td className="border border-gray-700 p-2">
                     <button
-                      onClick={() => handleDeleteProduct(product.pId)}
+                      onClick={() => handleDeleteProduct(product.pId,product.pName)}
                       className="bg-red-500 text-white p-2 rounded-md hover:bg-red-700"
                     >
                       Delete
