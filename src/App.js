@@ -10,11 +10,11 @@ import AdminPage from "./admin/AdminPage";
 import NavigationHeader from "./frontend/components/NavigationHeader";
 import Footer from "./frontend/components/Footer";
 import CreateProduct from "./admin/components/CreateProduct";
-import ChangeProduct from "./admin/components/ChangeProduct";
-import DeleteProduct from "./admin/components/DeleteProduct";
+import UpdateProduct from "./admin/components/UpdateProduct";
+import ProductAction from "./admin/components/ProductAction";
 import RecentActivity from "./admin/components/RecentActivity";
 import { ProductProvider } from "./context/ProductContext";
-import { ActivityProvider } from "./context/ActivityContext";
+
 
 const App=()=> {
 
@@ -37,7 +37,7 @@ const App=()=> {
   return (
     <BrowserRouter>
       <ProductProvider>
-        <ActivityProvider>
+      
           <Layout>
             <Routes>
               <Route path="/admin" element={<AdminPage />}>
@@ -46,8 +46,8 @@ const App=()=> {
 
                 {/* Nested Routes inside AdminPage */}
                 <Route path="product/create" element={<CreateProduct />} />
-                <Route path="product/change" element={<ChangeProduct />} />
-                <Route path="product/delete" element={<DeleteProduct />} />
+                <Route path="product/update/:pId" element={<UpdateProduct />} />
+                <Route path="product/action" element={<ProductAction />} />
               </Route>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
@@ -58,7 +58,7 @@ const App=()=> {
               <Route path="/contact" element={<Contact />} />
             </Routes>
           </Layout>
-        </ActivityProvider>
+      
       </ProductProvider>
     </BrowserRouter>
   );

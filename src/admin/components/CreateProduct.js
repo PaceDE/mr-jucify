@@ -142,7 +142,7 @@ const CreateProduct = () => {
 
         {/* Product Price */}
         <div>
-          <label className="block">Price ($):</label>
+          <label className="block">Price (Rs):</label>
           <input
             type="number"
             name="price"
@@ -153,7 +153,7 @@ const CreateProduct = () => {
 
         {/* Original Price */}
         <div>
-          <label className="block">Original Price ($):</label>
+          <label className="block">Original Price (Rs):</label>
           <input
             type="number"
             name="originalPrice"
