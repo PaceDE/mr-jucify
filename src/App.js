@@ -14,6 +14,7 @@ import UpdateProduct from "./admin/components/UpdateProduct";
 import ProductAction from "./admin/components/ProductAction";
 import RecentActivity from "./admin/components/RecentActivity";
 import { ProductProvider } from "./context/ProductContext";
+import Wishlist from "./frontend/components/Wishlist";
 
 
 const App=()=> {
@@ -56,6 +57,7 @@ const App=()=> {
               <Route path="/shop/tag/:tname" element={<Shop />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/wishlist" element={<Wishlist />} />
             </Routes>
           </Layout>
       

@@ -118,7 +118,7 @@ const NavigationHeader = () => {
       {/* Icons Section */}
       <div className="icons">
         <div className="whishlist">
-          <a href="wishlist.html">
+          <a href="/wishlist">
             <i className="bi bi-suit-heart"></i>
             <div className="circle">2</div>
           </a>
