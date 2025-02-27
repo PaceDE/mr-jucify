@@ -1,252 +1,252 @@
+.offcanvas-backdrop {
+  z-index: 0;
+}
+
 .navigation-header {
-    width: 100%;
-    background: white;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 60px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 60px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Mobile Menu Button */
 .menu-toggle {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  display: none;
 }
 
 /* Navigation Menu */
 .nav-menu {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 20px;
+  list-style: none;
+  display: flex;
+  gap: 20px;
 }
 
 .nav-links li a {
-    text-decoration: none;
-    font-weight: 500;
-    color: #4D4D4D;
+  text-decoration: none;
+  font-weight: 500;
+  color: #4d4d4d;
 }
 
 .nav-links li a.active,
 .nav-links li a:hover {
-    color: #679509;
+  color: #679509;
 }
 
 /* Dropdown */
 .dropdown-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
 }
 
 .dropdown-menu {
-    position: absolute;
-    top: 40px;
-    left: 0;
-    background: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    width: 180px;
-    display: flex;
-    flex-direction: column;
+  position: absolute;
+  top: 40px;
+  left: 0;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  width: 180px;
+  display: flex;
+  flex-direction: column;
 }
 
 .dropdown-menu li {
-    padding: 10px;
+  padding: 10px;
 }
 
 .dropdown-menu li:hover {
-    background: #f4f4f4;
+  background: #f4f4f4;
 }
 
 /* Icons */
 .icons {
-    display: flex;
-    gap: 60px;
+  display: flex;
+  gap: 60px;
 }
 
 .icon {
-    position: relative;
-    text-decoration: none;
-    font-size: 20px;
-    color: #4D4D4D;
+  position: relative;
+  text-decoration: none;
+  font-size: 20px;
+  color: #4d4d4d;
 }
 
 .icon:hover {
-    color: #679509;
+  color: #679509;
 }
 
 .badge {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background: #679509;
-    color: white;
-    font-size: 12px;
-    border-radius: 50%;
-    padding: 4px 6px;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #679509;
+  color: white;
+  font-size: 12px;
+  border-radius: 50%;
+  padding: 4px 6px;
 }
 .whishlist,
 .profile {
-    width: 40px;
-    height: 40px;
-    border: 1px solid #eeeeee;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #eeeeee;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .whishlist i,
 .profile i {
-    font-size: 20px;
-    color: #4d4d4d;
+  font-size: 20px;
+  color: #4d4d4d;
 }
 
 .whishlist:hover i,
 .profile:hover i {
-    color: #679509;
+  color: #679509;
 }
 
 .whishlist {
-    width: 40px;
-    height: 40px;
-    border: 1px solid #eeeeee;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    /* Ensures .circle is positioned relative to this */
+  width: 40px;
+  height: 40px;
+  border: 1px solid #eeeeee;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  /* Ensures .circle is positioned relative to this */
 }
 
 .whishlist a {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 .whishlist i {
-    font-size: 20px;
-    color: #4d4d4d;
+  font-size: 20px;
+  color: #4d4d4d;
 }
 
 .whishlist:hover i {
-    color: #679509;
+  color: #679509;
 }
 
 .whishlist .circle {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    width: 18px;
-    height: 18px;
-    background: #679509;
-    color: white;
-    font-size: 10px;
-    font-weight: bold;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 18px;
+  height: 18px;
+  background: #679509;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .basket {
-    position: relative;
-    width: 40px;
-    height: 40px;
-    border: 1px solid #eeeeee;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #eeeeee;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .basket a {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 .basket i {
-    font-size: 20px;
-    color: #4d4d4d;
+  font-size: 20px;
+  color: #4d4d4d;
 }
 
 .basket:hover i {
-    color: #679509;
+  color: #679509;
 }
 
 /* Badge for item count in the basket */
 .basket .badge {
-    position: absolute;
-    top: -5px;
-    right: 8px;
-    width: 18px;
-    height: 18px;
-    background: #679509;
-    color: white;
-    font-size: 10px;
-    font-weight: bold;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: absolute;
+  top: -5px;
+  right: 8px;
+  width: 18px;
+  height: 18px;
+  background: #679509;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Responsive */
-@media (max-width: 991px)
-{
-    .navigation-header {
-            padding: 15px 40px;
-        }
-                
-    .icons {
-            gap: 30px;
-                }
+@media (max-width: 991px) {
+  .navigation-header {
+    padding: 15px 40px;
+  }
 
+  .icons {
+    gap: 30px;
+  }
 }
 @media (max-width: 768px) {
-   
-    .menu-toggle {
-        display: block;
-    }
+  .menu-toggle {
+    display: block;
+  }
 
-    .nav-menu {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 70px;
-        left: 0;
-        width: 100%;
-        background: white;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
 
-    .nav-menu.open {
-        display: flex;
-    }
+  .nav-menu.open {
+    display: flex;
+  }
 
-    .nav-links {
-        flex-direction: column;
-        padding: 10px;
-        gap: 10px;
-    }
-    
+  .nav-links {
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+  }
 }

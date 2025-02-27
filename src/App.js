@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes,useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Home from "./frontend/components/Home";
 import About from "./frontend/components/About";
 import Shop from "./frontend/components/Shop";
@@ -15,10 +15,11 @@ import ProductAction from "./admin/components/ProductAction";
 import RecentActivity from "./admin/components/RecentActivity";
 import { ProductProvider } from "./context/ProductContext";
 import Wishlist from "./frontend/components/Wishlist";
+import Cart from "./frontend/components/Cart";
+import { CartProvider, useCart } from "./context/CartContext";
+import Notification from "./frontend/components/Notification";
 
-
-const App=()=> {
-
+const App = () => {
   const Layout = ({ children }) => {
     const location = useLocation();
 
@@ -35,16 +36,31 @@ const App=()=> {
     );
   };
 
+  const NotificationWrapper = () => {
+    const { notification, clearNotification } = useCart();
+
+    return (
+      <>
+        {notification && (
+          <Notification
+            message={notification.message}
+            onClose={clearNotification}
+          />
+        )}
+      </>
+    );
+  };
+
   return (
     <BrowserRouter>
       <ProductProvider>
-      
+        <CartProvider>
           <Layout>
+            <NotificationWrapper />
             <Routes>
               <Route path="/admin" element={<AdminPage />}>
                 {/* Default Page (when /admin is visited) */}
                 <Route index element={<RecentActivity />} />
-
                 {/* Nested Routes inside AdminPage */}
                 <Route path="product/create" element={<CreateProduct />} />
                 <Route path="product/update/:pId" element={<UpdateProduct />} />
@@ -58,12 +74,13 @@ const App=()=> {
               <Route path="/blog" element={<Blog />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/wishlist" element={<Wishlist />} />
+              <Route path="/cart" element={<Cart />} />
             </Routes>
           </Layout>
-      
+        </CartProvider>
       </ProductProvider>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

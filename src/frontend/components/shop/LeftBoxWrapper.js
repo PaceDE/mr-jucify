@@ -1,60 +1,54 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ItemBox from "./ItemBox";
 import { useProduct } from "../../../context/ProductContext";
 import { useParams } from "react-router-dom";
 
 const itemsPerPage = 6; // Display 9 items per page
 
-
 const LeftBoxWrapper = () => {
-  const { items,loading,error} = useProduct();
+  const { items, loading, error } = useProduct();
   const [filteredItems, setFilteredItems] = useState(items);
   const [selectedSorting, setSelectedSorting] = useState("0"); // "0" represents Default Sorting
   const [currentPage, setCurrentPage] = useState(1);
 
-  const {cname,tname}=useParams();
+  const { cname, tname } = useParams();
   const currentPath = window.location.pathname;
- 
-useEffect(() => {
-  setSelectedSorting("0");
-  setCurrentPage(1);
 
-  if (currentPath.startsWith("/shop/category") && cname) {
-    // Filter items based on category
-    if (cname !== "All Products") {
-      const categorizedItems = items.filter((item) =>
-        item.category.some(
-          (category) => category.toLowerCase().includes(cname.toLowerCase()) // Filter by category name
-        )
+  useEffect(() => {
+    setSelectedSorting("0");
+    setCurrentPage(1);
+
+    if (currentPath.startsWith("/shop/category") && cname) {
+      // Filter items based on category
+      if (cname !== "All Products") {
+        const categorizedItems = items.filter((item) =>
+          item.category.some((category) =>
+            category.toLowerCase().includes(cname.toLowerCase()),
+          ),
+        );
+        setFilteredItems(categorizedItems);
+      } else {
+        setFilteredItems(items); // Show all items if category is "All Products"
+      }
+    } else if (currentPath.startsWith("/shop/tag") && tname) {
+      // Filter items based on tag
+      const taggedItems = items.filter((item) =>
+        item.tags.some((tag) =>
+          tag.toLowerCase().includes(tname.toLowerCase()),
+        ),
       );
-      setFilteredItems(categorizedItems);
+      setFilteredItems(taggedItems);
     } else {
-      setFilteredItems(items); // Show all items if category is "All Products"
+      setFilteredItems(items); // Show all items if no category or tag is selected
     }
-  } else if (currentPath.startsWith("/shop/tag") && tname) {
-    // Filter items based on tag
-    const taggedItems = items.filter(
-      (item) =>
-        item.tags.some((tag) => tag.toLowerCase().includes(tname.toLowerCase())) // Filter by tag name
-    );
-    setFilteredItems(taggedItems);
-  } else {
-    setFilteredItems(items); // Show all items if no category or tag is selected
-  }
-}, [items, currentPath, cname, tname]);
-
-
-
-
- 
-
+  }, [items, currentPath, cname, tname]);
 
   if (loading) return <p>Loading products...</p>;
   if (error) return <p>Error: {error}</p>;
 
   const sortByName = () => {
     const sortedItems = [...filteredItems].sort((a, b) =>
-      a.pName.localeCompare(b.pName)
+      a.pName.localeCompare(b.pName),
     );
     setFilteredItems(sortedItems);
     setCurrentPage(1);
@@ -92,14 +86,13 @@ useEffect(() => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentItems = filteredItems.slice(
     startIndex,
-    startIndex + itemsPerPage
+    startIndex + itemsPerPage,
   );
 
   // Calculate start and end items for the current page
   var startItem = startIndex + 1;
   const endItem = startIndex + currentItems.length;
-  if(endItem===0)
-    startItem=0;
+  if (endItem === 0) startItem = 0;
   const totalItems = filteredItems.length;
 
   return (
@@ -133,7 +126,7 @@ useEffect(() => {
       <div className="item-box-wrapper">
         {currentItems.map((item) => (
           <ItemBox
-            key={item.id}
+            key={item.pId} // Use item.pId as the key
             imgSrc={item.imgSrc}
             title={item.pName}
             price={item.price}
@@ -152,21 +145,17 @@ useEffect(() => {
           >
             &#60; Previous
           </button>
-
-          {pages.map((num, index) => {
-            return (
-              <button
-                key={index}
-                onClick={() => {
-                  setCurrentPage(num);
-                }}
-                className={`${currentPage === num ? "active" : ""}`}
-              >
-                {num}
-              </button>
-            );
-          })}
-
+          {pages.map((num, index) => (
+            <button
+              key={index} // Use index as key for pagination buttons
+              onClick={() => {
+                setCurrentPage(num);
+              }}
+              className={`${currentPage === num ? "active" : ""}`}
+            >
+              {num}
+            </button>
+          ))}
           <button
             onClick={() => setCurrentPage(currentPage + 1)}
             disabled={currentPage === totalPages}

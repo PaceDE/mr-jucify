@@ -1,6 +1,19 @@
-import React from 'react';
+import React from "react";
+import { useCart } from "../../../context/CartContext";
 
 const ItemBox = ({ imgSrc, title, price, originalPrice, id }) => {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    const item = {
+      id: id,
+      name: title,
+      price: price,
+      image: imgSrc, // Include the image source
+    };
+    console.log(item);
+    addToCart(item);
+  };
   return (
     <div className="item-box-container">
       <div className="item-box">
@@ -13,18 +26,26 @@ const ItemBox = ({ imgSrc, title, price, originalPrice, id }) => {
           </a>
           <div className="text-box">
             <div className="Cart">
-              <a href="/">Add to cart</a>
-              <a href="/">
-                <div className="black">
-                  <i className="bi bi-cart-fill" style={{ fontSize: '20px' }}></i>
-                </div>
-              </a>
+              <button onClick={handleAddToCart} className="text-white">
+                Add to cart
+              </button>
+              <div className="black" style={{ pointerEvents: "none" }}>
+                <i className="bi bi-cart-fill" style={{ fontSize: "20px" }}></i>
+              </div>
             </div>
             <div className="Quick-view">
               <a href="/">Quick View</a>
-              <a href="/" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              <a
+                href="/"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+              >
                 <div className="black">
-                  <i className="bi bi-eye-fill" style={{ fontSize: '20px' }}></i>
+                  <i
+                    className="bi bi-eye-fill"
+                    style={{ fontSize: "20px" }}
+                  ></i>
                 </div>
               </a>
             </div>

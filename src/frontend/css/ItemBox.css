@@ -1,37 +1,41 @@
 /* Shop container that wraps the item boxes */
 .item-box-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    /* space between items */
-    justify-content:center;
-    /* ensures items are spaced evenly */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  /* space between items */
+  justify-content: center;
+  /* ensures items are spaced evenly */
 }
 
 /* Each item box container */
 .item-box-container {
-    flex: 0 1 30%;
-    /* Allow 3 items per row, with flexibility for resizing */
-    display: flex;
-    justify-content: center;
-    box-sizing: border-box;
-    margin-bottom: 20px;
-    /* Optional space between rows */
+  flex: 0 1 30%;
+  /* Allow 3 items per row, with flexibility for resizing */
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  /* Optional space between rows */
+}
+
+.Cart .black {
+  pointer-events: none;
 }
 
 /* Flexbox layout for item box */
 
 /* Media queries for responsive design */
 @media (max-width: 992px) {
-    .item-box-container {
-        flex: 0 1 48%;
-        /* 2 items per row on medium screens */
-    }
+  .item-box-container {
+    flex: 0 1 48%;
+    /* 2 items per row on medium screens */
+  }
 }
 
 @media (max-width: 576px) {
-    .item-box-container {
-        flex: 0 1 100%;
-        /* 1 item per row on small screens */
-    }
+  .item-box-container {
+    flex: 0 1 100%;
+    /* 1 item per row on small screens */
+  }
 }
