@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { NavLink } from "react-router-dom"; // Import NavLink
 import "../css/NavigationHeader.css";
 import Offcanvas from "./Offcanvas";
+import { useCart } from "../../context/CartContext";
 
 const categories = [
   "Team",
@@ -13,6 +14,8 @@ const categories = [
   "FAQ",
 ];
 const Basket = () => {
+  const { cartItems } = useCart();
+  const numberofItems = cartItems.length;
   return (
     <a
       data-bs-toggle="offcanvas"
@@ -23,7 +26,7 @@ const Basket = () => {
     >
       <div className="icon basket ml">
         <i className="bi bi-basket2 w-5"></i>
-        <div className="badge">5</div>{" "}
+        <div className="badge">{numberofItems}</div>{" "}
         {/* The circle here could be dynamic if using state */}
       </div>
     </a>
@@ -33,7 +36,19 @@ const Basket = () => {
 const NavigationHeader = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <header className="navigation-header">
       {/* Mobile Menu Toggle */}
@@ -72,7 +87,7 @@ const NavigationHeader = () => {
               Shop
             </NavLink>
           </li>
-          <li className="relative">
+          <li className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="dropdown-btn"
@@ -87,11 +102,12 @@ const NavigationHeader = () => {
                     <NavLink
                       to={`/${item.toLowerCase().replace(" ", "")}`}
                       className={({ isActive }) => (isActive ? "active" : "")}
+                      onClick={() => setDropdownOpen(false)}
                     >
                       {item}
                     </NavLink>
                   </li>
-                ))}
+                ))}{" "}
               </ul>
             )}
           </li>

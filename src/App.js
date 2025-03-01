@@ -17,7 +17,10 @@ import { ProductProvider } from "./context/ProductContext";
 import Wishlist from "./frontend/components/Wishlist";
 import Cart from "./frontend/components/Cart";
 import { CartProvider, useCart } from "./context/CartContext";
+import Login from "./frontend/components/Login";
 import Notification from "./frontend/components/Notification";
+import Register from "./frontend/components/Register";
+import Checkout from "./frontend/components/Checkout";
 
 const App = () => {
   const Layout = ({ children }) => {
@@ -75,6 +78,9 @@ const App = () => {
               <Route path="/contact" element={<Contact />} />
               <Route path="/wishlist" element={<Wishlist />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/checkout" element={<Checkout />} />
             </Routes>
           </Layout>
         </CartProvider>

@@ -3,7 +3,7 @@ import CartItem from "./CartItem";
 import { useCart } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
 
-const Offcanvas = () => {
+const Offcanvas = ({ total }) => {
   const { cartItems } = useCart();
   const totalItems = cartItems.reduce(
     (total, item) => total + item.quantity,
@@ -70,7 +70,9 @@ const Offcanvas = () => {
             <div className="proceed-checkout mt-2">
               <button
                 className="text-white hover:bg-green-700 font-semibold py-2 px-4 rounded-full bg-green-600 w-full"
-                onClick={() => navigate("/cart")}
+                onClick={() =>
+                  navigate("/checkout", { state: { total: totalPrice } })
+                }
               >
                 Proceed to Checkout
               </button>

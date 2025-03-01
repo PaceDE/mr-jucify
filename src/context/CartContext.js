@@ -1,4 +1,3 @@
-// CartContext.js
 import React, { createContext, useState, useContext } from "react";
 
 const CartContext = createContext();
@@ -16,7 +15,6 @@ export const CartProvider = ({ children }) => {
       );
 
       if (existingItemIndex !== -1) {
-        // Item already exists, update quantity
         const updatedItems = [...prevItems];
         updatedItems[existingItemIndex] = {
           ...updatedItems[existingItemIndex],
@@ -31,7 +29,6 @@ export const CartProvider = ({ children }) => {
         setNotification({
           message: `${item.name} added to cart!`,
         });
-        // Item doesn't exist, add it to the cart with quantity 1
         return [...prevItems, newItem];
       }
     });

@@ -1,10 +1,10 @@
-// Cart.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useCart } from "../../context/CartContext";
 import Banner from "../components/Banner";
+import { useNavigate } from "react-router-dom";
 
-const Cart = () => {
-  const { cartItems, removeFromCart, updateQuantity } = useCart(); // Access cartItems and functions
+const Cart = ({ total }) => {
+  const { cartItems, removeFromCart, updateQuantity } = useCart();
   const tableHeaders = [
     { id: "image", label: "Image" },
     { id: "name", label: "Product Name" },
@@ -17,6 +17,7 @@ const Cart = () => {
   const [couponCode, setCouponCode] = useState("");
   const [discount, setDiscount] = useState(0);
   const [discountApplied, setDiscountApplied] = useState(false);
+  const [shouldNavigate, setShouldNavigate] = useState(false);
 
   const calculateSubTotal = (price, quantity) => {
     return price * quantity;
@@ -67,6 +68,19 @@ const Cart = () => {
     }
   };
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (shouldNavigate) {
+      navigate("/shop");
+      setShouldNavigate(false);
+    }
+  }, [shouldNavigate, navigate]);
+
+  const handleContinueShopping = () => {
+    setShouldNavigate(true);
+  };
+
   return (
     <>
       <Banner pageTitle={"Cart"} />
@@ -99,7 +113,10 @@ const Cart = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <a href="#" className="text-blue-600 hover:text-blue-800">
+                      <a
+                        href="#"
+                        className="text-blue-600 hover:text-blue-800 text-lg"
+                      >
                         {item.name}
                       </a>
                     </td>
@@ -152,18 +169,12 @@ const Cart = () => {
           </div>
 
           <div className="flex justify-between mt-4">
-            <a
-              href="#"
+            <button
               className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+              onClick={handleContinueShopping} // Call the handler
             >
               Continue Shopping
-            </a>
-            <a
-              href="#"
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-              Update Cart
-            </a>
+            </button>
           </div>
         </section>
 
@@ -228,13 +239,14 @@ const Cart = () => {
                 <h4>Grand Total</h4>
                 <span>Rs {grandTotal.toFixed(2)}</span>
               </div>
-
-              <a
-                href="#"
+              <button
                 className="block text-center px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                onClick={() => {
+                  navigate("/checkout", { state: { total: grandTotal } });
+                }}
               >
                 Proceed To Checkout
-              </a>
+              </button>
             </div>
           </div>
         </section>

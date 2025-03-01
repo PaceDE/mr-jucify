@@ -7,12 +7,13 @@ var jwt = require("jsonwebtoken");
 const { data } = require("jquery");
 var fetchuser = require("../middleware/fetchuser");
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET || "MessiThGoat";
 // Create a User using: POST "/api/auth/createuser". No login required
 router.post(
   "/createuser",
   [
-    body("username", "Enter a valid username").isLength({ min: 3 }),
+    body("firstname", "Enter a valid firstname").isLength({ min: 3 }),
+    body("lastname", "Enter a valid lastname").isLength({ min: 3 }),
     body("email", "Enter a valid email").isEmail(),
     body("password", "Password must be atleast 5 characters").isLength({
       min: 5,
@@ -36,7 +37,8 @@ router.post(
       const salt = await bcrypt.genSalt(10);
       const hashedPass = await bcrypt.hash(req.body.password, salt);
       const user = new User({
-        username: req.body.username,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
         email: req.body.email,
         password: hashedPass, // Store the hashed password
       });
@@ -86,7 +88,13 @@ router.post(
         },
       };
       const authtoken = jwt.sign(data, JWT_SECRET);
-      res.json(authtoken);
+      res.cookie("token", authtoken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "Strict",
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+      res.json({ success: true });
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Server error: " + error.message);
@@ -97,7 +105,7 @@ router.post(
 //ROUTE 3: Get loggedin User detail using: POST "/api/auth/getuser" . Login Required
 router.post("/getuser", fetchuser, async (req, res) => {
   try {
-    userId = req.user.id;
+    const userId = req.user.id;
     const user = await User.findById(userId).select("-password");
     res.json(user);
   } catch (error) {
