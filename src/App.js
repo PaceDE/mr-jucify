@@ -17,6 +17,7 @@ import { ProductProvider } from "./context/ProductContext";
 import Wishlist from "./frontend/components/Wishlist";
 import Cart from "./frontend/components/Cart";
 import { CartProvider, useCart } from "./context/CartContext";
+import { WishlistProvider, useWishlist } from "./context/WishlistContext";
 import Login from "./frontend/components/Login";
 import Notification from "./frontend/components/Notification";
 import Register from "./frontend/components/Register";
@@ -40,14 +41,27 @@ const App = () => {
   };
 
   const NotificationWrapper = () => {
-    const { notification, clearNotification } = useCart();
+    const {
+      notification: cartNotification,
+      clearNotification: clearCartNotification,
+    } = useCart();
+    const {
+      notification: wishlistNotification,
+      clearNotification: clearWishlistNotification,
+    } = useWishlist();
 
     return (
       <>
-        {notification && (
+        {cartNotification && (
           <Notification
-            message={notification.message}
-            onClose={clearNotification}
+            message={cartNotification.message}
+            onClose={clearCartNotification}
+          />
+        )}
+        {wishlistNotification && (
+          <Notification
+            message={wishlistNotification.message}
+            onClose={clearWishlistNotification}
           />
         )}
       </>
@@ -58,31 +72,36 @@ const App = () => {
     <BrowserRouter>
       <ProductProvider>
         <CartProvider>
-          <Layout>
-            <NotificationWrapper />
-            <Routes>
-              <Route path="/admin" element={<AdminPage />}>
-                {/* Default Page (when /admin is visited) */}
-                <Route index element={<RecentActivity />} />
-                {/* Nested Routes inside AdminPage */}
-                <Route path="product/create" element={<CreateProduct />} />
-                <Route path="product/update/:pId" element={<UpdateProduct />} />
-                <Route path="product/action" element={<ProductAction />} />
-              </Route>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/shop" element={<Shop />} />
-              <Route path="/shop/category/:cname" element={<Shop />} />
-              <Route path="/shop/tag/:tname" element={<Shop />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/wishlist" element={<Wishlist />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/checkout" element={<Checkout />} />
-            </Routes>
-          </Layout>
+          <WishlistProvider>
+            <Layout>
+              <NotificationWrapper />
+              <Routes>
+                <Route path="/admin" element={<AdminPage />}>
+                  {/* Default Page (when /admin is visited) */}
+                  <Route index element={<RecentActivity />} />
+                  {/* Nested Routes inside AdminPage */}
+                  <Route path="product/create" element={<CreateProduct />} />
+                  <Route
+                    path="product/update/:pId"
+                    element={<UpdateProduct />}
+                  />
+                  <Route path="product/action" element={<ProductAction />} />
+                </Route>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/shop" element={<Shop />} />
+                <Route path="/shop/category/:cname" element={<Shop />} />
+                <Route path="/shop/tag/:tname" element={<Shop />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/wishlist" element={<Wishlist />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/checkout" element={<Checkout />} />
+              </Routes>
+            </Layout>
+          </WishlistProvider>
         </CartProvider>
       </ProductProvider>
     </BrowserRouter>

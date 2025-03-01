@@ -1,29 +1,41 @@
 import React from "react";
 import { useCart } from "../../../context/CartContext";
+import { useWishlist } from "../../../context/WishlistContext";
 
 const ItemBox = ({ imgSrc, title, price, originalPrice, id }) => {
   const { addToCart } = useCart();
+  const { addToWishlist } = useWishlist();
 
   const handleAddToCart = () => {
     const item = {
       id: id,
       name: title,
       price: price,
-      image: imgSrc, // Include the image source
+      image: imgSrc,
     };
-    console.log(item);
     addToCart(item);
   };
+
+  const handleAddToWishlist = () => {
+    const item = {
+      id: id,
+      name: title,
+      price: price,
+      image: imgSrc,
+    };
+    addToWishlist(item);
+  };
+
   return (
     <div className="item-box-container">
       <div className="item-box">
         <div className="item-image">
           <img src={imgSrc} alt={title} />
-          <a href="whishlist.html">
+          <button onClick={handleAddToWishlist}>
             <div className="whishlist-heart">
               <i className="fa fa-heart-o"></i>
             </div>
-          </a>
+          </button>
           <div className="text-box">
             <div className="Cart">
               <button onClick={handleAddToCart} className="text-white">
