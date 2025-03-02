@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import { NavLink } from "react-router-dom"; // Import NavLink
+import { NavLink, useNavigate } from "react-router-dom";
 import "../css/NavigationHeader.css";
 import Offcanvas from "./Offcanvas";
 import { useCart } from "../../context/CartContext";
+import { useWishlist } from "../../context/WishlistContext";
 
 const categories = [
   "Team",
@@ -27,7 +28,6 @@ const Basket = () => {
       <div className="icon basket ml">
         <i className="bi bi-basket2 w-5"></i>
         <div className="badge">{numberofItems}</div>{" "}
-        {/* The circle here could be dynamic if using state */}
       </div>
     </a>
   );
@@ -37,6 +37,9 @@ const NavigationHeader = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
+  const { wishlistItems } = useWishlist();
+  const numberofItems = wishlistItems.length;
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -133,10 +136,10 @@ const NavigationHeader = () => {
       {/* Icons Section */}
       <div className="icons">
         <div className="whishlist">
-          <a href="/wishlist">
+          <button onClick={() => navigate("/wishlist")}>
             <i className="bi bi-suit-heart"></i>
-            <div className="circle">2</div>
-          </a>
+            <div className="circle">{numberofItems}</div>
+          </button>
         </div>
         <div className="profile">
           <a href="login.html">

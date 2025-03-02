@@ -46,18 +46,17 @@ const Offcanvas = ({ total }) => {
           {cartItems.map((item) => (
             <CartItem
               key={item.id}
+              item={item}
               imgSrc={item.image}
               name={item.name}
               price={`Rs ${item.price} * ${item.quantity}`}
             />
           ))}
 
-          {/* Cart Summary */}
           <div className="minicart-bottom mt-4 border-t border-gray-200 pt-4">
             <h6 className="font-semibold text-xl text-green-600">
               Total:{" "}
               <span className="font-bold text-green-800">Rs {totalPrice}</span>{" "}
-              {/* Display total price */}
             </h6>
             <div className="view-cart mt-2">
               <button

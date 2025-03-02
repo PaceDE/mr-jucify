@@ -1,61 +1,47 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 const WishlistContext = createContext();
 
-export const useWishlist = () => useContext(WishlistContext);
+export const useWishlist = () => {
+  return useContext(WishlistContext);
+};
 
 export const WishlistProvider = ({ children }) => {
   const [wishlistItems, setWishlistItems] = useState([]);
   const [notification, setNotification] = useState(null);
 
   const addToWishlist = (item) => {
-    setWishlistItems((prevItems) => {
-      const existingItemIndex = prevItems.findIndex(
-        (wishlistItem) => wishlistItem.id === item.id,
-      );
+    const itemExists = wishlistItems.some(
+      (wishlistItem) => wishlistItem.id === item.id,
+    );
 
-      if (existingItemIndex !== -1) {
-        setNotification({
-          message: `${item.name} is already in your wishlist!`,
-        });
-        return prevItems; // Return the previous state without modification
-      } else {
-        const newItem = { ...item };
-        setNotification({
-          message: `${item.name} added to wishlist!`,
-        });
-        return [...prevItems, newItem];
-      }
-    });
+    if (itemExists) {
+      setNotification({ message: `${item.name} is already in your wishlist!` });
+    } else {
+      setWishlistItems((prevItems) => [...prevItems, item]);
+      setNotification({ message: `${item.name} added to wishlist!` });
+    }
   };
 
-  const removeFromWishlist = (itemId) => {
-    setWishlistItems((prevItems) => {
-      const itemToRemove = prevItems.find((item) => item.id === itemId);
-      if (itemToRemove) {
-        setNotification({
-          message: `${itemToRemove.name} removed from wishlist!`,
-        });
-      }
-      const updatedItems = prevItems.filter((item) => item.id !== itemId);
-      return updatedItems;
-    });
+  const removeFromWishlist = (id, name) => {
+    setWishlistItems((prevItems) => prevItems.filter((item) => item.id !== id));
+    setNotification({ message: `${name} removed from wishlist!` });
   };
 
   const clearNotification = () => {
     setNotification(null);
   };
 
-  const contextValue = {
-    wishlistItems,
-    addToWishlist,
-    removeFromWishlist,
-    notification,
-    clearNotification,
-  };
-
   return (
-    <WishlistContext.Provider value={contextValue}>
+    <WishlistContext.Provider
+      value={{
+        wishlistItems,
+        addToWishlist,
+        removeFromWishlist,
+        notification,
+        clearNotification,
+      }}
+    >
       {children}
     </WishlistContext.Provider>
   );

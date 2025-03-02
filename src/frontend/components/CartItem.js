@@ -1,6 +1,13 @@
 import React from "react";
+import { useCart } from "../../context/CartContext";
 
-const CartItem = ({ imgSrc, name, price }) => {
+const CartItem = ({ imgSrc, name, price, item }) => {
+  const { removeFromCart } = useCart();
+
+  const removeItem = (itemId) => {
+    removeFromCart(itemId);
+  };
+
   return (
     <div className="minicart-products flex items-center p-4 border-b border-gray-200">
       <div className="minicart-image w-1/3 h-20 overflow-hidden">
@@ -18,6 +25,7 @@ const CartItem = ({ imgSrc, name, price }) => {
           type="button"
           className="remove-item absolute top-0 right-0 text-2xl text-gray-400 hover:text-green-600"
           aria-label="Close"
+          onClick={() => removeItem(item.id)}
         >
           &times;
         </button>
