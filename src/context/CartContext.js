@@ -8,7 +8,7 @@ export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [notification, setNotification] = useState(null);
 
-  const addToCart = (item) => {
+  const addToCart = (item, quantity = 1) => {
     setCartItems((prevItems) => {
       const existingItemIndex = prevItems.findIndex(
         (cartItem) => cartItem.id === item.id,
@@ -18,14 +18,14 @@ export const CartProvider = ({ children }) => {
         const updatedItems = [...prevItems];
         updatedItems[existingItemIndex] = {
           ...updatedItems[existingItemIndex],
-          quantity: updatedItems[existingItemIndex].quantity + 1,
+          quantity: updatedItems[existingItemIndex].quantity + quantity,
         };
         setNotification({
           message: `${item.name} added to cart!.`,
         });
         return updatedItems;
       } else {
-        const newItem = { ...item, quantity: 1 };
+        const newItem = { ...item, quantity: quantity };
         setNotification({
           message: `${item.name} added to cart!`,
         });

@@ -3,14 +3,16 @@ import { useLocation } from "react-router-dom";
 import Banner from "./Banner";
 import CryptoJS from "crypto-js";
 import { v4 as uuidv4 } from "uuid";
+import Notification from "./Notification";
 
 const Checkout = () => {
   const location = useLocation();
-  const totalcost = location.state?.total || 100;
+  const totalcost = parseInt(location.state?.total);
   let shipping = 0;
   if (totalcost) {
     shipping = Math.floor(Math.random() * 100);
   }
+  const payable_total = totalcost + shipping;
 
   const [user, setUser] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -27,12 +29,18 @@ const Checkout = () => {
     signed_field_names: "total_amount,transaction_uuid,product_code",
   });
 
+  const [notification, setNotification] = useState({
+    message: "",
+    visible: false,
+  });
+
   useEffect(() => {
     setFormData((prevData) => ({
       ...prevData,
-      amount: totalcost.toString(),
+      amount: payable_total,
+      total_amount: payable_total,
     }));
-  }, [totalcost]);
+  }, [payable_total]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -97,21 +105,35 @@ const Checkout = () => {
       document.body.appendChild(form);
       form.submit();
     } else if (paymentMethod === "Cash on Delivery") {
+      setNotification({
+        message: "order and payemnt have been successful",
+        visible: true,
+      });
       alert("Cash on Delivery selected. Proceeding with the order.");
     } else {
       alert("Please select a payment method.");
     }
   };
 
+  const handleCloseNotification = () => {
+    setNotification({ ...notification, visible: false });
+  };
+
   return (
     <>
       <Banner pageTitle={"Register"} />
+      {notification.visible && (
+        <Notification
+          message={notification.message}
+          onClose={handleCloseNotification}
+        />
+      )}
       <div className="mt-24 mb-24 mr-8 font-sans text-sm flex">
-        {/* Main Section */}
         <div className="w-3/4">
           <div className="ml-12 bg-white p-5">
             <h2 className="mb-8 pb-4 border-b border-gray-200 font-bold text-2xl">
-              Billing Details
+              {" "}
+              () Billing Details
             </h2>
             <form action="#">
               <div className="flex flex-wrap">
@@ -121,7 +143,7 @@ const Checkout = () => {
                     type="text"
                     required="required"
                     className="w-full border border-gray-300 rounded-none py-2 px-3 focus:outline-none focus:border-green-500"
-                    defaultValue={user?.firstname || ""} // Use user data if available
+                    defaultValue={user?.firstname || ""}
                   />
                 </div>
 
@@ -131,7 +153,7 @@ const Checkout = () => {
                     type="text"
                     required="required"
                     className="w-full border border-gray-300 rounded-none py-2 px-3 focus:outline-none focus:border-green-500"
-                    defaultValue={user?.lastname || ""} // Use user data if available
+                    defaultValue={user?.lastname || ""}
                   />
                 </div>
               </div>
@@ -142,7 +164,7 @@ const Checkout = () => {
                   type="text"
                   required="required"
                   className="w-full border border-gray-300 rounded-none py-2 px-3 focus:outline-none focus:border-green-500"
-                  defaultValue={user?.company || ""} // Use user data if available
+                  defaultValue={user?.company || ""}
                 />
               </div>
 
@@ -203,8 +225,6 @@ const Checkout = () => {
             </form>
           </div>
         </div>
-
-        {/* Sidebar Section */}
         <div className="w-1/4">
           <div className="ml-5 bg-white p-5">
             <h2 className="mb-8 pb-4 border-b border-gray-200 font-bold text-2xl">
@@ -222,7 +242,7 @@ const Checkout = () => {
               <li className="py-2 text-gray-600 leading-8">
                 <b className="font-bold">Payable Total</b>
                 <span className="float-right ml-20">
-                  <b className="font-bold">Rs. {totalcost + shipping}</b>
+                  <b className="font-bold">Rs. {payable_total}</b>
                 </span>
               </li>
             </ul>

@@ -22,6 +22,9 @@ import Login from "./frontend/components/Login";
 import Notification from "./frontend/components/Notification";
 import Register from "./frontend/components/Register";
 import Checkout from "./frontend/components/Checkout";
+import Modal from "./frontend/components/Modal";
+import ProductDetail from "./frontend/components/ProductDetail";
+import UserDetails from "./frontend/components/UserDetails";
 
 const App = () => {
   const Layout = ({ children }) => {
@@ -99,6 +102,9 @@ const App = () => {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/checkout" element={<Checkout />} />
+                <Route path="/modal" element={<Modal />} />
+                <Route path="/detail" element={<ProductDetail />} />
+                <Route path="/user" element={<UserDetails />} />
               </Routes>
             </Layout>
           </WishlistProvider>

@@ -1,29 +1,36 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../../../context/CartContext";
 import { useWishlist } from "../../../context/WishlistContext";
 
-const ItemBox = ({ imgSrc, title, price, originalPrice, id }) => {
+const ItemBox = ({
+  imgSrc,
+  title,
+  price,
+  originalPrice,
+  id,
+  onQuickView,
+  item,
+}) => {
+  const navigate = useNavigate();
   const { addToCart } = useCart();
   const { addToWishlist } = useWishlist();
 
   const handleAddToCart = () => {
-    const item = {
-      id: id,
-      name: title,
-      price: price,
-      image: imgSrc,
-    };
-    addToCart(item);
+    addToCart({ id, name: title, price, image: imgSrc, quantity: 1 });
   };
 
   const handleAddToWishlist = () => {
-    const item = {
-      id: id,
-      name: title,
-      price: price,
-      image: imgSrc,
-    };
-    addToWishlist(item);
+    const itemToAdd = { id: id, name: title, price: price, image: imgSrc };
+    addToWishlist(itemToAdd);
+  };
+
+  const handleQuickViewClick = () => {
+    onQuickView(item);
+  };
+
+  const handleTitleClick = () => {
+    navigate("/detail", { state: { item: item } });
   };
 
   return (
@@ -47,19 +54,14 @@ const ItemBox = ({ imgSrc, title, price, originalPrice, id }) => {
             </div>
             <div className="Quick-view">
               <a href="/">Quick View</a>
-              <a
-                href="/"
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
-              >
+              <button onClick={handleQuickViewClick}>
                 <div className="black">
                   <i
                     className="bi bi-eye-fill"
                     style={{ fontSize: "20px" }}
                   ></i>
                 </div>
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -71,11 +73,12 @@ const ItemBox = ({ imgSrc, title, price, originalPrice, id }) => {
             <i className="bi bi-star-fill"></i>
             <i className="bi bi-star-fill"></i>
           </span>
-          <a href="details.html">
-            <h3>{title}</h3>
-          </a>
+          <h3 onClick={handleTitleClick} style={{ cursor: "pointer" }}>
+            {title}
+          </h3>
           <span className="item-price">
-            Rs {price} <h6>&nbsp; Rs {originalPrice}</h6>
+            Rs {price}
+            <h6>Rs {originalPrice}</h6>
           </span>
         </div>
       </div>

@@ -2,15 +2,18 @@ import React, { useState, useEffect } from "react";
 import ItemBox from "./ItemBox";
 import { useProduct } from "../../../context/ProductContext";
 import { useParams } from "react-router-dom";
+import Modal from "../Modal";
+import { useCart } from "../../../context/CartContext";
 
-const itemsPerPage = 6; // Display 9 items per page
+const itemsPerPage = 6;
 
 const LeftBoxWrapper = () => {
   const { items, loading, error } = useProduct();
   const [filteredItems, setFilteredItems] = useState(items);
-  const [selectedSorting, setSelectedSorting] = useState("0"); // "0" represents Default Sorting
+  const [selectedSorting, setSelectedSorting] = useState("0");
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [selectedItem, setSelectItem] = useState(null);
+  const { addToCart } = useCart();
   const { cname, tname } = useParams();
   const currentPath = window.location.pathname;
 
@@ -19,7 +22,6 @@ const LeftBoxWrapper = () => {
     setCurrentPage(1);
 
     if (currentPath.startsWith("/shop/category") && cname) {
-      // Filter items based on category
       if (cname !== "All Products") {
         const categorizedItems = items.filter((item) =>
           item.category.some((category) =>
@@ -28,10 +30,9 @@ const LeftBoxWrapper = () => {
         );
         setFilteredItems(categorizedItems);
       } else {
-        setFilteredItems(items); // Show all items if category is "All Products"
+        setFilteredItems(items);
       }
     } else if (currentPath.startsWith("/shop/tag") && tname) {
-      // Filter items based on tag
       const taggedItems = items.filter((item) =>
         item.tags.some((tag) =>
           tag.toLowerCase().includes(tname.toLowerCase()),
@@ -39,7 +40,7 @@ const LeftBoxWrapper = () => {
       );
       setFilteredItems(taggedItems);
     } else {
-      setFilteredItems(items); // Show all items if no category or tag is selected
+      setFilteredItems(items);
     }
   }, [items, currentPath, cname, tname]);
 
@@ -75,33 +76,33 @@ const LeftBoxWrapper = () => {
     }
   };
 
-  // Calculate total pages
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-  var pages = [];
-  for (let i = 0; i < totalPages; i++) {
-    pages[i] = i + 1;
-  }
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-  // Get items for the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentItems = filteredItems.slice(
     startIndex,
     startIndex + itemsPerPage,
   );
 
-  // Calculate start and end items for the current page
-  var startItem = startIndex + 1;
+  const startItem = startIndex + 1;
   const endItem = startIndex + currentItems.length;
-  if (endItem === 0) startItem = 0;
   const totalItems = filteredItems.length;
+
+  const handleQuickView = (item) => {
+    setSelectItem(item);
+  };
+
+  const handleModalClose = () => {
+    setSelectItem(null);
+  };
 
   return (
     <>
-      {/* Top Bar*/}
       <div className="top-bar">
         <div className="result-no">
           <p>
-            Showing {startItem}-{endItem} of {totalItems} Results
+            Showing {startItem || 0}-{endItem} of {totalItems} Results
           </p>
         </div>
         <div className="sorting">
@@ -113,30 +114,35 @@ const LeftBoxWrapper = () => {
             onChange={handleSort}
           >
             <option value="0">Default Sorting</option>
-            <option value="1" onClick={sortByName}>
-              Sort By Name
-            </option>
+            <option value="1">Sort By Name</option>
             <option value="2">Sort By Price</option>
           </select>
         </div>
       </div>
 
-      {/* Items Wrapper*/}
-
       <div className="item-box-wrapper">
         {currentItems.map((item) => (
           <ItemBox
-            key={item.pId} // Use item.pId as the key
+            key={item.pId}
             imgSrc={item.imgSrc}
             title={item.pName}
             price={item.price}
             originalPrice={item.originalPrice}
             id={item.pId}
+            onQuickView={handleQuickView}
+            item={item}
           />
         ))}
+        {selectedItem && (
+          <Modal
+            {...selectedItem}
+            key={selectedItem.pId}
+            addToCart={addToCart}
+            onClose={handleModalClose}
+          />
+        )}
       </div>
 
-      {/*Paginatiton*/}
       <div className="pagination-control">
         <div className="mb-3">
           <button
@@ -145,12 +151,10 @@ const LeftBoxWrapper = () => {
           >
             &#60; Previous
           </button>
-          {pages.map((num, index) => (
+          {pages.map((num) => (
             <button
-              key={index} // Use index as key for pagination buttons
-              onClick={() => {
-                setCurrentPage(num);
-              }}
+              key={num}
+              onClick={() => setCurrentPage(num)}
               className={`${currentPage === num ? "active" : ""}`}
             >
               {num}
