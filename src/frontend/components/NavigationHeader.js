@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom"; // Import NavLink
 import "../css/NavigationHeader.css";
 import Offcanvas from "./Offcanvas";
+import { useAuth } from "../../context/AuthContext";
 
 const categories = [
   "Team",
@@ -34,6 +35,10 @@ const Basket = () => {
 const NavigationHeader = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const{wishlist,isLoading}=useAuth();
+  if(isLoading){
+    return <div>Loading...</div>
+  }
 
   return (
     <header className="navigation-header">
@@ -120,7 +125,7 @@ const NavigationHeader = () => {
         <div className="whishlist">
           <a href="/wishlist">
             <i className="bi bi-suit-heart"></i>
-            <div className="circle">2</div>
+            <div className="circle">{wishlist.length}</div>
           </a>
         </div>
         <div className="profile">

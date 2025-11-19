@@ -1,15 +1,38 @@
 import Banner from "./Banner";
-
-import image1 from '../images/1.jpg';
-import image2 from '../images/2.jpg';
-import image3 from '../images/3.jpg';
+import { useAuth } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 const Wishlist = () => {
-    const data = [
-        {"id": 0, "name": "Onion", "image": image1, "price": 199, "status": "In stock"},
-        {"id": 1, "name": "Mushroom", "image": image2, "price": 499, "status": "In stock"},
-        {"id": 2, "name": "Peach", "image": image3, "price": 299, "status": "In stock"},
-    ];
+    const {wishlist,setWishlist,isLoading} =useAuth();
+    console.log(wishlist)
+    const handleDelete = async (id) =>{const token = sessionStorage.getItem("token");
+        try {
+          const response = await fetch(`http://localhost:5000/api/product/deleteWishlist/${id}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`
+            }
+          });
+    
+          const data = await response.json();
+          console.log(data);
+          if (data.msg) {
+            setWishlist(data.wishlist);
+            toast.success(data.msg)
+          }
+    
+          else {
+            toast.error("Failed to add to Wishlist");
+          }
+        } catch (error) {
+          toast.error("Failed to add to Wishlist");
+        }
+      }
+      if(isLoading){
+        return <div>Loading...</div>
+      }
+    
 
     return ( 
         <>
@@ -26,21 +49,21 @@ const Wishlist = () => {
                         </div>
                     </div>
                     <div className="table-row-group">
-                    {data.map(d => (
-                        <div className="table-row" key={d["id"]}>
+                    {wishlist.map(d => (
+                        <div className="table-row" key={d._id}>
                             <div className="table-cell">
-                                <img src={d["image"]} alt="" className="w-24 h-24" />
+                                <img src={d.imgSrc} alt="" className="w-24 h-24" />
                             </div>
                             <div className="table-cell align-middle">
-                                {d["name"]}
+                                {d.pName}
                             </div>
                             <div className="table-cell align-middle">
-                                Rs.{d["price"]}
+                                Rs.{d.price}
                             </div>
                             <div className="table-cell align-middle">
                                 <button className="px-4 py-3 bg-[#679509] text-white rounded-full text-sm font-semibold hover:bg-[#2a660a] duration-200 ease-linear" >Add to Cart</button>
                             </div>
-                            <div className="table-cell align-middle">
+                            <div className="table-cell align-middle" onClick={()=>handleDelete(d._id)}>
                                 <i class="fa fa-times text-2xl duration-200 ease-linear hover:text-[#679509] hover:rotate-90" aria-hidden="true"></i>
                             </div>
                         </div>

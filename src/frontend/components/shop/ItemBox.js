@@ -1,16 +1,48 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useAuth } from '../../../context/AuthContext';
 
 const ItemBox = ({ imgSrc, title, price, originalPrice, id }) => {
+  const {setWishlist,wishlist,isLoading} = useAuth();
+  const addWishList = async (id) => {
+    const token = sessionStorage.getItem("token");
+    try {
+      const response = await fetch(`http://localhost:5000/api/product/addWishlist/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+       console.log("Response data:", data);
+
+      if (data.msg) {
+        setWishlist(data.wishlist);
+        toast.success(data.msg)
+      }
+
+      else {
+        toast.error("Failed to add to Wishlist");
+      }
+    } catch (error) {
+      toast.error("Failed to add to Wishlist");
+    }
+  }
+  if(isLoading){
+    return <div>Loading...</div>
+  }
+
   return (
     <div className="item-box-container">
       <div className="item-box">
         <div className="item-image">
           <img src={imgSrc} alt={title} />
-          <a href="whishlist.html">
-            <div className="whishlist-heart">
-              <i className="fa fa-heart-o"></i>
-            </div>
-          </a>
+          <div className="whishlist-heart" onClick={() => { addWishList(id) }}>
+            <i className="fa fa-heart-o"></i>
+          </div>
           <div className="text-box">
             <div className="Cart">
               <a href="/">Add to cart</a>

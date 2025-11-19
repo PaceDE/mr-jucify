@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useProduct } from "../../context/ProductContext"; 
+import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useProduct } from "../../context/ProductContext";
 import LogoImg from "../../images/logo.png";
-import "../css/Header.css"; 
+import "../css/Header.css";
+import { useAuth } from "../../context/AuthContext";
 
 const Logo = () => (
   <div className="w-1/6 flex justify-start ml-6 lg:w-1/12">
@@ -11,34 +12,33 @@ const Logo = () => (
 );
 
 const CategorySelect = () => {
-  const { selectedCategory, setSelectedCategory,allCategory } = useProduct();
+  const { selectedCategory, setSelectedCategory, allCategory } = useProduct();
   const [isOpen, setIsOpen] = useState(false);
-  const navigate= useNavigate();
-  const location =useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  useEffect(()=>{
+
+  useEffect(() => {
     const currentPath = window.location.pathname;
-    if(!currentPath.startsWith("/shop/category"))
-    {
+    if (!currentPath.startsWith("/shop/category")) {
       setSelectedCategory("All Products");
 
     }
-},[location,setSelectedCategory])
+  }, [location, setSelectedCategory])
 
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
     setIsOpen(false);
-     const currentPath = window.location.pathname;
-    if(category!=="All Products")
-    {
+    const currentPath = window.location.pathname;
+    if (category !== "All Products") {
       navigate(`/shop/category/${category.toLowerCase()}`); // Navigate with category in URL
     }
-    else if(currentPath.startsWith("/shop") && currentPath!==('/shop'))
-    {
+    else if (currentPath.startsWith("/shop") && currentPath !== ('/shop')) {
       navigate('/shop');
     }
   };
+
 
   return (
     <div className="relative category-container">
@@ -49,11 +49,11 @@ const CategorySelect = () => {
       {isOpen && (
         <ul className="dropdown-menu">
           <li
-        
+
             className="dropdown-item"
             onClick={() => handleCategoryClick("All Products")}
           >
-            All Products  
+            All Products
           </li>
           {allCategory.map((category, index) => (
             <li
@@ -72,18 +72,18 @@ const CategorySelect = () => {
 
 const SearchBar = () => (
   <div className="search-container">
-   
-      <input 
-        type="text"
-        placeholder="Search Products..."
-        className="search-input"
-        name="search"
-        />
-      <button className="search-btn">
-        <i className="bi bi-search"></i>
-      </button>
-   
-    
+
+    <input
+      type="text"
+      placeholder="Search Products..."
+      className="search-input"
+      name="search"
+    />
+    <button className="search-btn">
+      <i className="bi bi-search"></i>
+    </button>
+
+
   </div>
 );
 
@@ -97,15 +97,37 @@ const ContactInfo = ({ icon, text }) => (
 
 
 const Header = () => {
+  const { isLoggedIn, isLoading, logout } = useAuth();
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <header className="header-container">
       <Logo />
       <CategorySelect />
       <SearchBar />
-      <ContactInfo icon="bi-telephone-inbound" text="+977xxxxxxxxxxx" />
-      <ContactInfo icon="bi-question-circle" text="Help & More" />
-      
+      {!isLoggedIn ? (
+        <div className="flex gap-2">
+          <Link to='/register'>
+            <button type="button" className="bg-green-500 hover:bg-green-600 text-white rounded-lg p-2">
+              Register
+            </button>
+          </Link>
+          <Link to='/login'>
+            <button type="button" className="bg-green-500 hover:bg-green-600 text-white rounded-lg p-2">
+              Login
+            </button>
+          </Link>
+        </div>
+      ) : (
+        <div
+          onClick={logout}
+          className="bg-green-500 hover:bg-green-600 text-white rounded-lg p-2 cursor-pointer"
+        >
+          Logout
+        </div>
+      )}
     </header>
   );
 };

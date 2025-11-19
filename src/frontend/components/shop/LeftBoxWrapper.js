@@ -133,12 +133,12 @@ useEffect(() => {
       <div className="item-box-wrapper">
         {currentItems.map((item) => (
           <ItemBox
-            key={item.id}
+            key={item._id}
             imgSrc={item.imgSrc}
             title={item.pName}
             price={item.price}
             originalPrice={item.originalPrice}
-            id={item.pId}
+            id={item._id}
           />
         ))}
       </div>

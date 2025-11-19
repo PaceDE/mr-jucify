@@ -1,13 +1,13 @@
 // src/components/Home.js
 
 import React from "react";
-import Banner from "./blocks/Banner";
-import SmallBanner from "./blocks/SmallBanner";
-import ItemSlider from "./blocks/ItemSlider";
-import ShopByCategory from "./blocks/ShopByCategory";
-import Deal from "./blocks/Deal";
-import Summary from "./blocks/Summary";
-import ContactBlock from "./blocks/ContactBlock";
+import Banner from "../components/blocks/Banner";
+import SmallBanner from "../components/blocks/SmallBanner";
+import ItemSlider from "../components/blocks/ItemSlider";
+import ShopByCategory from "../components/blocks/ShopByCategory";
+import Deal from "../components/blocks/Deal";
+import Summary from "../components/blocks/Summary";
+import ContactBlock from "../components/blocks/ContactBlock";
 
 const Home = () => {
   return (

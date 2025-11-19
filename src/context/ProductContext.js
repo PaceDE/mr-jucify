@@ -9,9 +9,9 @@ export const ProductProvider = ({ children }) => {
   const [selectedCategory, setSelectedCategory] = useState("All Products");
   const [allCategory, setAllCategory] = useState([]);
   const [allTags, setAllTags] = useState([]);
-   const [loading, setLoading] = useState(true);
-   const [error, setError] = useState(null);
-   const [currentTag, setCurrentTag] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentTag, setCurrentTag] = useState("");
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -28,11 +28,19 @@ export const ProductProvider = ({ children }) => {
         const extractedTags = new Set();
         const extractedCategories = new Set();
 
-        data.forEach((item) => {
-          if (item.tags) item.tags.forEach((tag) => extractedTags.add(tag));
-          if (item.category)
-            item.category.forEach((cat) => extractedCategories.add(cat));
-        });
+        for (const item of data) {
+          if (item.tags) {
+            for (const tag of item.tags) {
+              extractedTags.add(tag);
+            }
+          }
+
+          if (item.category) {
+            for (const cat of item.category) {
+              extractedCategories.add(cat);
+            }
+          }
+        }
 
         setAllTags([...extractedTags]);
         setAllCategory([...extractedCategories]);

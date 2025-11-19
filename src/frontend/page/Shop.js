@@ -1,11 +1,11 @@
 import React from "react";
 import { useEffect } from "react";
-import Banner from "./Banner";
-import LeftBoxWrapper from "./shop/LeftBoxWrapper";
-import TopItems from "./shop/TopItems";
-import SearchBox from "./shop/SearchBox";
-import ProductCategory from "./shop/ProductCategory";
-import ProductTags from "./shop/ProductTags";
+import Banner from "../components/Banner";
+import LeftBoxWrapper from "../components/shop/LeftBoxWrapper";
+import TopItems from "../components/shop/TopItems";
+import SearchBox from "../components/shop/SearchBox";
+import ProductCategory from "../components/shop/ProductCategory";
+import ProductTags from "../components/shop/ProductTags";
 
 
 

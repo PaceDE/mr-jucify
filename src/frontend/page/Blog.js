@@ -1,6 +1,6 @@
 import React from "react";
 
-import Banner from "./Banner";
+import Banner from "../components/Banner";
 
 import image1 from '../images/1.jpg';
 import image2 from '../images/2.jpg';
@@ -26,7 +26,7 @@ const Blog = () => {
           {data.map(d => (
             <div className="w-[300px] mx-5 mb-10 px-3 py-2 flex flex-col shadow-md blog-card" key={d["id"]}>
               <div className="w-full h-[300px] border-b blog-img-div">
-                <img src={d["image"]} alt="image" className="w-full h-full object-cover blog-img" />
+                <img src={d["image"]} alt="blog" className="w-full h-full object-cover blog-img" />
               </div>
               <div className="p-2 flex flex-col content">
                 <div className="my-1 text-lg font-semibold">
